@@ -1,44 +1,24 @@
 'use client';
-
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
-import 'leaflet/dist/leaflet.css';
-import nextDynamic from 'next/dynamic';
-import L from 'leaflet';
+import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 
-// Fix marker icon paths
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl:
-    'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl:
-    'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-});
-
-// Dynamically import Leaflet components (disable SSR)
-const MapContainer = nextDynamic(
-  () => import('react-leaflet').then((mod) => mod.MapContainer),
-  { ssr: false }
-);
-
-const TileLayer = nextDynamic(
-  () => import('react-leaflet').then((mod) => mod.TileLayer),
-  { ssr: false }
-);
-
-const Marker = nextDynamic(
-  () => import('react-leaflet').then((mod) => mod.Marker),
-  { ssr: false }
-);
-
-const Popup = nextDynamic(
-  () => import('react-leaflet').then((mod) => mod.Popup),
-  { ssr: false }
-);
+const libraries = ['places'];
+const mapContainerStyle = {
+  width: '100%',
+  height: '100%',
+};
+const center = {
+  lat: 9.0340712,
+  lng: 7.4795370,
+};
 
 const ContactPage = () => {
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+    libraries,
+  });
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -50,7 +30,8 @@ const ContactPage = () => {
     console.log(formData);
   };
 
-  const position = [9.0340712, 7.479537]; // Abuja coordinates
+  if (loadError) return <p>Error loading maps</p>;
+  if (!isLoaded) return <p>Loading Maps...</p>;
 
   return (
     <div className="min-h-screen bg-blue-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -60,7 +41,7 @@ const ContactPage = () => {
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          {/* Contact Information */}
+          {/* Contact Info */}
           <div className="space-y-6 bg-white p-8 rounded-2xl shadow-lg">
             <div className="flex items-center space-x-4">
               <div className="p-3 bg-blue-800/10 rounded-full">
@@ -153,24 +134,19 @@ const ContactPage = () => {
           </div>
         </div>
 
-        {/* Map Section */}
+        {/* Google Map */}
         <div className="h-96 w-full rounded-2xl shadow-lg overflow-hidden">
-          <MapContainer
-            center={position}
+          <GoogleMap
+            mapContainerStyle={mapContainerStyle}
             zoom={13}
-            style={{ height: '100%', width: '100%' }}
-            scrollWheelZoom={false}
+            center={center}
+            options={{
+              scrollwheel: false,
+              disableDefaultUI: true,
+            }}
           >
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-            <Marker position={position}>
-              <Popup>
-                OKEY IP,<br /> LAW FIRM
-              </Popup>
-            </Marker>
-          </MapContainer>
+            <Marker position={center} />
+          </GoogleMap>
         </div>
       </div>
     </div>
