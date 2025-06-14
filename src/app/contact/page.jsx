@@ -1,5 +1,7 @@
 // pages/contact.js
 'use client';
+export const dynamic = "force-dynamic"; // ✅ Prevent static generation
+
 import { useState, useEffect } from 'react';
 import { FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
 import 'leaflet/dist/leaflet.css';
@@ -38,8 +40,8 @@ const ContactPage = () => {
     console.log(formData);
   };
 
-  // ✅ Move Leaflet icon fix into useEffect to avoid SSR error
   useEffect(() => {
+    // Safely apply Leaflet marker icon fix
     delete L.Icon.Default.prototype._getIconUrl;
     L.Icon.Default.mergeOptions({
       iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
