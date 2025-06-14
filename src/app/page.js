@@ -308,10 +308,11 @@ export default function HomePage() {
 
             <div className="bg-white p-8 shadow-lg">
               <p className="text-lg text-gray-600 mb-6 text-justify">
-                Okey IP is a full-service intellectual property law firm specializing in trademarks, patents,
-                designs, copyright and enforcement of these rights. Our firm has been developed through sound
-                business principles, responsiveness to corporate and individual needs, understanding our
-                clients' objectives and providing practical and clear solutions. Okey IP is based in Abuja, the Federal Capital Territory and the IP centre of Nigeria and has been listed in the World Trademark Review Yearbook.
+                Okey IP is a full-service intellectual property law firm specializing in trademarks, patents, 
+                designs, copyright and enforcement of these rights. Our firm has been developed through 
+                sound business principles, responsiveness to corporate and individual needs, understanding our 
+                clients&apos; objectives and providing practical and clear solutions. Okey IP is based in Abuja, 
+                the Federal Capital Territory and the IP centre of Nigeria and has been listed in the World Trademark Review Yearbook.
               </p>
               <Link href="/about">
                 <button className="bg-[rgb(0,48,91)] text-white px-6 py-3 rounded-lg hover:bg-[rgb(40,84,158)] transition-all duration-300 font-poppins font-medium">

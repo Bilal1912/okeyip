@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LinkedinIcon, MailIcon } from '@/components/icons';
+// import { LinkedinIcon, MailIcon } from '@/components/icons';
 
 export default function TeamPage () {
   // 1) Raw data arrays
@@ -57,7 +57,7 @@ export default function TeamPage () {
       name: 'Sonia Chigozirim Ejike-Njoku',
       role: '',
       bio: 'Sonia Chigozirim Ejike-Njoku is a bright and detail-oriented legal professional with a strong foundation in intellectual property law and a keen analytical mind, currently serving as an Intern at Okey IP Law Firm. As a Trainee Associate at Okey IP Law Firm, she is actively involved in high-level legal research, trademark portfolio management, and the drafting of trademark matters. Sonia brings a thoughtful, solutions-oriented approach to client service and legal strategy, combining precision with an ability to navigate complex legal frameworks in a rapidly evolving IP landscape.She holds a Bachelor of Laws (LL.B) degree from Nnamdi Azikiwe University and is expected to complete her B.L. from the Nigerian Law School in 2025. In addition to her legal training, Sonia has earned a Data Science and Analytics diploma and holds a DELF B1 certificate in French, reflecting a multidisciplinary approach and versatile skill set that seamlessly integrates law, technology, and multilingual proficiency.Sonia has gained hands-on legal experience through internships at Bola Olotu SAN & Co., S M Nwosu & Co., and the High Court of the FCT. She has also demonstrated leadership as Head Editor of her university’s Law Journal and has been active in legal education initiatives through her role in an ADR Law Clinic.Sonia’s diverse background and wide-ranging interests complement her legal training, positioning her as a well-rounded professional with the adaptability to thrive in today’s dynamic legal environment.',
-      image: '/image/.jpg',
+      image: '/image/Sonia.jpg',
       linkedin: '#',
       email: ''
     },
@@ -238,14 +238,12 @@ export default function TeamPage () {
                               onClick={(e) => e.stopPropagation()}
                               className="text-[rgb(0,48,91)] hover:text-blue-700"
                             >
-                              <LinkedinIcon className="h-6 w-6" />
                             </a>
                             <a
                               href={`mailto:${member.email}`}
                               onClick={(e) => e.stopPropagation()}
                               className="text-[rgb(0,48,91)] hover:text-blue-700"
                             >
-                              <MailIcon className="h-6 w-6" />
                             </a>
                           </div>
                         </motion.div>

@@ -8,9 +8,6 @@ import L from 'leaflet';
 
 
 
-
-
-
 // Fixed marker icons
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -180,3 +177,4 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
+
