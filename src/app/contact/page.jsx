@@ -1,27 +1,39 @@
-// pages/contact.js
 'use client';
-export const dynamic = "force-dynamic"; // ✅ Prevent static generation
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
 import 'leaflet/dist/leaflet.css';
-import dynamic from 'next/dynamic';
+import nextDynamic from 'next/dynamic';
 import L from 'leaflet';
 
-// Dynamically import Leaflet components
-const MapContainer = dynamic(
+// Fix marker icon paths
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl:
+    'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl:
+    'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl:
+    'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
+
+// Dynamically import Leaflet components (disable SSR)
+const MapContainer = nextDynamic(
   () => import('react-leaflet').then((mod) => mod.MapContainer),
   { ssr: false }
 );
-const TileLayer = dynamic(
+
+const TileLayer = nextDynamic(
   () => import('react-leaflet').then((mod) => mod.TileLayer),
   { ssr: false }
 );
-const Marker = dynamic(
+
+const Marker = nextDynamic(
   () => import('react-leaflet').then((mod) => mod.Marker),
   { ssr: false }
 );
-const Popup = dynamic(
+
+const Popup = nextDynamic(
   () => import('react-leaflet').then((mod) => mod.Popup),
   { ssr: false }
 );
@@ -30,25 +42,15 @@ const ContactPage = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    message: ''
+    message: '',
   });
-
-  const position = [9.0340712, 7.4795370]; // Coordinates
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
   };
 
-  useEffect(() => {
-    // Safely apply Leaflet marker icon fix
-    delete L.Icon.Default.prototype._getIconUrl;
-    L.Icon.Default.mergeOptions({
-      iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-      iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-    });
-  }, []);
+  const position = [9.0340712, 7.479537]; // Abuja coordinates
 
   return (
     <div className="min-h-screen bg-blue-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -66,7 +68,7 @@ const ContactPage = () => {
               </div>
               <div>
                 <h3 className="text-[rgb(0,48,91)] font-poppins font-semibold">Email</h3>
-                <p className="text-[rgb(0,48,91)]">info@okeyip.com,</p>
+                <p className="text-[rgb(0,48,91)]">info@okeyip.com</p>
                 <p className="text-[rgb(0,48,91)]">okey@okeyip.com</p>
               </div>
             </div>
@@ -156,7 +158,7 @@ const ContactPage = () => {
           <MapContainer
             center={position}
             zoom={13}
-            style={{ height: "100%", width: "100%" }}
+            style={{ height: '100%', width: '100%' }}
             scrollWheelZoom={false}
           >
             <TileLayer
@@ -165,7 +167,7 @@ const ContactPage = () => {
             />
             <Marker position={position}>
               <Popup>
-                OKEY IP, <br /> LAW FIRM
+                OKEY IP,<br /> LAW FIRM
               </Popup>
             </Marker>
           </MapContainer>
