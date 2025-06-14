@@ -1,37 +1,24 @@
 // pages/contact.js
-'use client'
+'use client';
 import { useState, useEffect } from 'react';
 import { FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
 import 'leaflet/dist/leaflet.css';
 import dynamic from 'next/dynamic';
 import L from 'leaflet';
 
-
-
-// Fixed marker icons
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-});
-
 // Dynamically import Leaflet components
 const MapContainer = dynamic(
   () => import('react-leaflet').then((mod) => mod.MapContainer),
   { ssr: false }
 );
-
 const TileLayer = dynamic(
   () => import('react-leaflet').then((mod) => mod.TileLayer),
   { ssr: false }
 );
-
 const Marker = dynamic(
   () => import('react-leaflet').then((mod) => mod.Marker),
   { ssr: false }
 );
-
 const Popup = dynamic(
   () => import('react-leaflet').then((mod) => mod.Popup),
   { ssr: false }
@@ -44,12 +31,22 @@ const ContactPage = () => {
     message: ''
   });
 
+  const position = [9.0340712, 7.4795370]; // Coordinates
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
   };
 
-  const position = [9.0340712, 7.4795370]; // Coordinates
+  // ✅ Move Leaflet icon fix into useEffect to avoid SSR error
+  useEffect(() => {
+    delete L.Icon.Default.prototype._getIconUrl;
+    L.Icon.Default.mergeOptions({
+      iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+      iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+    });
+  }, []);
 
   return (
     <div className="min-h-screen bg-blue-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -177,4 +174,3 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
-
