@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "@/Components/Navbar";
+import { Analytics } from '@vercel/analytics/next';
 import Footer from "@/Components/footer";
 import "./globals.css";
 
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
         <Navbar/>
         <main className="main-content pt-20" >
         {children}
+        <Analytics />
         </main>
         <Footer/>
       </body>
